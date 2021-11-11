@@ -90,15 +90,22 @@ class Car {
   }
 
   drive(distance) {
+    let fuelRequired = distance / this.milesPerGallon;
 
-    if (this.tank <= 0) {
+    
+
+    if (this.tank - fuelRequired <= 0) {
+      this.tank = 0;
+      this.odometer += distance;
       return `I ran out of fuel at ${this.odometer} miles!`;
-    }
-
-    this.odometer += distance;
-    this.tank -= distance / this.milesPerGallon;
+      } else {
+        this.odometer += distance;
+        this.tank -= fuelRequired;
+      }
   }
 }
+
+// 10  
 
 /*
   TASK 3
@@ -141,9 +148,9 @@ class Lambdasian {
 class Instructor extends Lambdasian {
   constructor(attrs) {
     super(attrs);
-    this.specialty = 'Dancing';
-    this.favLanguage = 'Kotlin';
-    this.catchPhrase = 'Let\'s goooooooo!';
+    this.specialty = attrs.specialty;
+    this.favLanguage = attrs.favLanguage;
+    this.catchPhrase = attrs.catchPhrase;
   }
 
   demo(subject) {
@@ -171,15 +178,15 @@ class Instructor extends Lambdasian {
 class Student extends Lambdasian {
    constructor(attrs) {
      super(attrs);
-     this.previousBackground = '';
-     this.className = '';
-     this.favSubjects = [];
+     this.previousBackground = attrs.previousBackground;
+     this.className = attrs.className;
+     this.favSubjects = attrs.favSubjects;
    }
 
    listSubjects () {
      return this.favSubjects.join(',');
    }
-   PRAssigment (subject) {
+   PRAssignment(subject) {
      return `${this.name} has submitted a PR for ${subject}`;
    }
 
@@ -203,7 +210,17 @@ class Student extends Lambdasian {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 class ProjectManager extends Instructor {
-   
+   constructor(attrs) {
+     super(attrs);
+     this.gradClassName = attrs.gradClassName;
+     this.favInstructor = attrs.favInstructor;
+   }
+   standUp(channel) {
+     return `${this.name} announces to ${channel}, @channel standy times!`;
+   }
+   debugsCode(student, subject) {
+     return `${this.name} debugs ${student.name}'s code on ${subject}`;
+   }
 }
 /*
   STRETCH PROBLEM (no tests!)
